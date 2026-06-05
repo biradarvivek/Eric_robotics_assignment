@@ -8,7 +8,34 @@ import {
   User,
 } from "lucide-react";
 
-const Sidebar = () => {
+const Sidebar = ({ activeTab, setActiveTab }) => {
+  const menuItems = [
+    {
+      id: "dashboard",
+      icon: LayoutGrid,
+    },
+    {
+      id: "map",
+      icon: Map,
+    },
+    {
+      id: "location",
+      icon: MapPin,
+    },
+    {
+      id: "focus",
+      icon: Focus,
+    },
+    {
+      id: "radar",
+      icon: Radar,
+    },
+    {
+      id: "analytics",
+      icon: TrendingUp,
+    },
+  ];
+
   return (
     <div
       className="
@@ -27,8 +54,6 @@ const Sidebar = () => {
         backgroundSize: "100% 4px",
       }}
     >
-      {/* Logo */}
-
       <div className="mt-4 text-center">
         <h1 className="text-white text-[14px] font-black tracking-wider">
           ERIC
@@ -37,35 +62,29 @@ const Sidebar = () => {
         <p className="text-[4px] tracking-[2px] text-slate-500">ROBOTICS</p>
       </div>
 
-      {/* Menu */}
-
       <div className="mt-14 flex flex-col items-center gap-7">
-        <button className="w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center text-white">
-          <LayoutGrid size={18} />
-        </button>
+        {menuItems.map((item) => {
+          const Icon = item.icon;
 
-        <button className="text-slate-400 hover:text-white">
-          <Map size={18} />
-        </button>
-
-        <button className="text-slate-400 hover:text-white">
-          <MapPin size={18} />
-        </button>
-
-        <button className="text-slate-400 hover:text-white">
-          <Focus size={18} />
-        </button>
-
-        <button className="text-slate-400 hover:text-white">
-          <Radar size={18} />
-        </button>
-
-        <button className="text-slate-400 hover:text-white">
-          <TrendingUp size={18} />
-        </button>
+          return (
+            <button
+              key={item.id}
+              onClick={() => setActiveTab(item.id)}
+              className={`
+                flex items-center justify-center
+                transition-all duration-300
+                ${
+                  activeTab === item.id
+                    ? "w-9 h-9 rounded-lg bg-white/10 text-white"
+                    : "text-slate-400 hover:text-white"
+                }
+              `}
+            >
+              <Icon size={18} />
+            </button>
+          );
+        })}
       </div>
-
-      {/* User */}
 
       <div className="mt-auto mb-5">
         <button className="text-slate-400 hover:text-white">

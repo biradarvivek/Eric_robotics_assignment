@@ -19,6 +19,6 @@ app.listen(PORT, () => {
     `Test your video feed: http://localhost:${PORT}/assets/sample_video.mp4`,
   );
   console.log(
-    `Test your 3D map: http://localhost:${PORT}/assets/sample_map.pcd`,
+    `Test your 3D map: http://localhost:${PORT}/assets/simple_map.pcd`,
   );
 });

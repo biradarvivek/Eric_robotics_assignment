@@ -1,8 +1,15 @@
 import { Pause, BatteryFull, Wifi, Circle, ArrowRight } from "lucide-react";
 import React, { useState } from "react";
 
-const Header = () => {
+const Header = ({ missionStarted, setMissionStarted, emergencyStop }) => {
   const [activeMode, setActiveMode] = useState("AUTO");
+
+  const getStatusText = () => {
+    if (emergencyStop) return "Emergency Stop Active";
+    if (missionStarted) return "Mission Running";
+    return "Ready To Start";
+  };
+
   return (
     <>
       {/* Top Left: Mission Status */}
@@ -11,10 +18,20 @@ const Header = () => {
           <span className="text-slate-400 text-xs font-bold uppercase tracking-wider">
             Status
           </span>
-          <span className="font-extrabold text-sm text-slate-800">
-            On Mission 1234
+
+          <span
+            className={`font-extrabold text-sm ${
+              emergencyStop
+                ? "text-red-600"
+                : missionStarted
+                  ? "text-green-600"
+                  : "text-slate-800"
+            }`}
+          >
+            {getStatusText()}
           </span>
         </div>
+
         <button className="w-8 h-8 rounded-full bg-[#081726] flex items-center justify-center hover:scale-105 transition-transform">
           <Pause size={14} className="text-white" fill="white" />
         </button>
@@ -26,6 +43,7 @@ const Header = () => {
           <span className="font-black text-[11px] tracking-widest text-slate-800">
             QUICK GOAL
           </span>
+
           <div className="w-8 h-8 rounded-full bg-[#081726] flex items-center justify-center">
             <ArrowRight size={16} className="text-white" />
           </div>
@@ -39,16 +57,19 @@ const Header = () => {
             <BatteryFull size={18} />
             <span className="text-sm font-semibold">100%</span>
           </div>
+
           <div className="flex items-center gap-2.5">
             <Wifi size={18} />
             <span className="text-sm font-semibold">Strong</span>
           </div>
+
           <div className="flex items-center gap-2.5">
             <Circle size={10} fill="#4ade80" className="text-green-400" />
             <span className="text-sm font-semibold">
               Failsafe <span className="text-white ml-1">Okay</span>
             </span>
           </div>
+
           <div className="flex items-center gap-2.5">
             <Circle size={10} fill="#4ade80" className="text-green-400" />
             <span className="text-sm font-semibold">
@@ -85,7 +106,7 @@ const Header = () => {
               rounded-full px-5 py-2 text-[11px] font-semibold tracking-wide transition-all duration-300
               ${
                 activeMode === "MANUAL"
-                  ? "bg-[#081726] backdrop-blur-md text-white shadow-[0_2px_8px_rgba(0,0,0,0.15)]"
+                  ? "bg-[#081726] text-white shadow-[0_2px_8px_rgba(0,0,0,0.15)]"
                   : "text-slate-500 hover:text-[#081726] bg-transparent"
               }
             `}
@@ -95,11 +116,19 @@ const Header = () => {
         </div>
 
         {/* Initiate Button */}
-        <button className="bg-white rounded-full pl-6 pr-2 py-2 shadow-lg flex items-center gap-4 hover:scale-105 transition-transform border border-slate-100">
+        <button
+          onClick={() => setMissionStarted(true)}
+          className="bg-white rounded-full pl-6 pr-2 py-2 shadow-lg flex items-center gap-4 hover:scale-105 transition-transform border border-slate-100"
+        >
           <span className="text-[11px] font-black tracking-widest text-slate-800">
-            INITIATE
+            {missionStarted ? "RUNNING" : "INITIATE"}
           </span>
-          <div className="w-8 h-8 rounded-full bg-[#081726] flex items-center justify-center">
+
+          <div
+            className={`w-8 h-8 rounded-full flex items-center justify-center ${
+              missionStarted ? "bg-green-600" : "bg-[#081726]"
+            }`}
+          >
             <ArrowRight size={16} className="text-white" />
           </div>
         </button>
